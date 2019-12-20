@@ -1,0 +1,32 @@
+{
+  "name": "tmnyAdmin",
+  "version": "1.0.0",
+  "author": "",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "server": "nodemon server/server.js",
+    "client": "npm run start --prefix client",
+    "clientinstall": "npm run --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^5.0.2",
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "@material-ui/icons": "^4.5.1",
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "gravatar": "^1.8.0",
+    "joi": "^14.3.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.8.1",
+    "request": "^2.88.0"
+  }
+}

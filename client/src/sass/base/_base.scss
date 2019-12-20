@@ -1,0 +1,47 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+a {
+  text-decoration: none;
+}
+
+html {
+  overflow-x: hidden;
+  font-size: 80%;
+  word-spacing: 0.15rem;
+  color: #222222;
+  font-family: roboto, 'Noto Sans Myanmar UI', arial, sans-serif;
+
+  @include respond(sm) {
+    font-size: 85%;
+  }
+
+  @include respond(md) {
+    font-size: 90%;
+  }
+
+  @include respond(lg) {
+    font-size: 95%;
+  }
+
+  @include respond(xl) {
+    font-size: 100%;
+  }
+}
+
+body {
+  background: rgb(109, 116, 117);
+  background: linear-gradient(
+    43deg,
+    rgba(109, 116, 117, 1) 0%,
+    rgba(200, 212, 219, 1) 35%,
+    rgba(167, 174, 179, 1) 88%
+  );
+
+  box-sizing: border-box;
+}

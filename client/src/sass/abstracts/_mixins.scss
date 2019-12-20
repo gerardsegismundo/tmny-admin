@@ -1,0 +1,51 @@
+@mixin clearfix {
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin absCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// MEDIA QUERY MANAGER
+@mixin respond($breakpoint) {
+  @if $breakpoint == sm {
+    // Small devices (landscape phones, 576px and up)
+    @media (min-width: 576px) {
+      @content;
+    }
+  }
+  @if $breakpoint == md {
+    // Medium devices (tablets, 768px and up)
+    @media (min-width: 768px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == md-lg {
+    // Medium-Large devices (882px and up)
+    @media (min-width: 882px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == lg {
+    // Large devices (desktops, 992px and up)
+    @media (min-width: 992px) {
+      @content;
+    } //1800
+  }
+
+  @if $breakpoint == xl {
+    // Extra large devices (large desktops, 1200px and up)
+    @media (min-width: 1200px) {
+      @content;
+    }
+  }
+}
