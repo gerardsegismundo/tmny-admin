@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Redirect } from 'react-router-dom'
 import { Button, Card, TextField, LinearProgress } from '@material-ui/core'
 import { connect } from 'react-redux'
 import { setIsLoading } from '../redux/ui/ui.actions'
@@ -7,7 +8,13 @@ import { register } from '../redux/auth/auth.actions'
 import ErrorRoundedIcon from '@material-ui/icons/ErrorRounded'
 import { NotificationManager } from 'react-notifications'
 
-const Register = ({ isLoading, authError, setIsLoading, register }) => {
+const Register = ({
+  isAuthenticated,
+  isLoading,
+  authError,
+  setIsLoading,
+  register
+}) => {
   const [formData, setFormData] = useState({
     email: 'hahaha',
     password: 'hahaha',
@@ -68,15 +75,13 @@ const Register = ({ isLoading, authError, setIsLoading, register }) => {
 
       register(email, password)
 
-      if (authError) {
-        NotificationManager.success('Account created.', 'Success')
-        console.log('SUCCESS REGISTER')
-      } else {
-        console.log('FAILED')
-      }
+      if (authError) NotificationManager.success('Account created.', 'Success')
+
       setIsLoading(false)
     }, 1500)
   }
+
+  if (isAuthenticated) return <Redirect to='/dashboard' />
 
   return (
     <div className='register'>
@@ -142,7 +147,8 @@ const Register = ({ isLoading, authError, setIsLoading, register }) => {
 
 const mapStateToProps = ({ ui, auth }) => ({
   isLoading: ui.isLoading,
-  authError: auth.error
+  authError: auth.error,
+  isAuthenticated: auth.isAuthenticated
 })
 
 export default connect(mapStateToProps, { register, setIsLoading })(Register)

@@ -10,12 +10,7 @@
 
 //  -----  Progressbar  -------------------------------- //
 .MuiLinearProgress-bar.MuiLinearProgress-bar {
-  background: linear-gradient(
-    45deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(9, 83, 121, 1) 35%,
-    rgba(0, 212, 255, 1) 100%
-  );
+  background: $primary-linear-gradient;
 }
 
 .MuiLinearProgress-root.MuiLinearProgress-root {
@@ -34,12 +29,7 @@
   text-transform: none;
 
   &.MuiButton-containedPrimary {
-    background: linear-gradient(
-      45deg,
-      rgba(2, 0, 36, 1) 0%,
-      rgba(9, 83, 121, 1) 35%,
-      rgba(0, 212, 255, 1) 100%
-    );
+    background: $primary-linear-gradient;
 
     background-size: 200% 100%;
     transition: all ease-in-out 0.3s;

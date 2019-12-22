@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Redirect } from 'react-router-dom'
 import { Button, Card, TextField, LinearProgress } from '@material-ui/core'
 import { connect } from 'react-redux'
 import { setIsLoading } from '../redux/ui/ui.actions'
@@ -6,10 +7,16 @@ import { login } from '../redux/auth/auth.actions'
 
 import ErrorRoundedIcon from '@material-ui/icons/ErrorRounded'
 
-const Login = ({ isLoading, authError, setIsLoading, login }) => {
+const Login = ({
+  isAuthenticated,
+  isLoading,
+  authError,
+  setIsLoading,
+  login
+}) => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: 'hahaha@gmail.com',
+    password: 'hahaha'
   })
 
   const [error, setError] = useState({
@@ -52,6 +59,8 @@ const Login = ({ isLoading, authError, setIsLoading, login }) => {
       setIsLoading(false)
     }, 1500)
   }
+
+  if (isAuthenticated) return <Redirect to='/dashboard' />
 
   return (
     <div className='login'>
@@ -104,6 +113,7 @@ const Login = ({ isLoading, authError, setIsLoading, login }) => {
 
 const mapStateToProps = ({ ui, auth }) => ({
   isLoading: ui.isLoading,
+  isAuthenticated: auth.isAuthenticated,
   authError: auth.error
 })
 

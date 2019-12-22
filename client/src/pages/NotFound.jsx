@@ -1,5 +1,5 @@
 import React from 'react'
-import NotFoundSvg from '../assets/notFound.svg'
+import NotFoundIcon from '../assets/NotFound.icon'
 
 import { Link } from 'react-router-dom'
 
@@ -8,7 +8,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 const NotFound = () => {
   return (
     <div className='not-found'>
-      <NotFoundSvg className={'not-found__notfound-icon'} />
+      <NotFoundIcon className={'not-found__notfound-icon'} />
       <Link className='not-found__return-link' to='/'>
         <ArrowBackIcon
           className='not-found__return-link__back-icon'
