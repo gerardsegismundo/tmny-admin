@@ -3,11 +3,10 @@ import clsx from 'clsx'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-
+import MenuItem from '@material-ui/core/MenuItem'
+import Menu from '@material-ui/core/Menu'
 import InboxIcon from '@material-ui/icons/MoveToInbox'
 import MailIcon from '@material-ui/icons/Mail'
-import NotificationsIcon from '@material-ui/icons/Notifications'
-
 import AccountCircle from '@material-ui/icons/AccountCircle'
 
 import useNavbarStyles from './styles/Navbar.styles'
@@ -20,7 +19,6 @@ import {
   Badge,
   AppBar,
   Toolbar,
-  CssBaseline,
   Drawer,
   List,
   Typography,
@@ -43,20 +41,23 @@ const Navbar = ({ getMessages, messages }) => {
   const theme = useTheme()
   const [open, setOpen] = React.useState(false)
 
-  // eslint-disable-next-line
   const [anchorEl, setAnchorEl] = React.useState(null)
+  const bukas = Boolean(anchorEl)
+
+  const handleMenu = event => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
 
   const handleDrawerOpen = () => setOpen(true)
 
   const handleDrawerClose = () => setOpen(false)
 
-  const handleProfileMenuOpen = event => {
-    setAnchorEl(event.currentTarget)
-  }
-
   return (
     <div className={classes.root}>
-      <CssBaseline />
       <AppBar
         position='fixed'
         className={clsx(classes.appBar, {
@@ -85,25 +86,33 @@ const Navbar = ({ getMessages, messages }) => {
                 </Badge>
               </IconButton>
             </Tooltip>
-            <Tooltip title='Notifications'>
-              <IconButton aria-label='shows notifications' color='inherit'>
-                <Badge badgeContent={17} color='secondary'>
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-            </Tooltip>
-            <Tooltip title='Profile'>
-              <IconButton
-                edge='end'
-                aria-label='account of current user'
-                aria-controls='primary-search-account-menu'
-                aria-haspopup='true'
-                onClick={handleProfileMenuOpen}
-                color='inherit'
-              >
-                <AccountCircle />
-              </IconButton>
-            </Tooltip>
+
+            <IconButton
+              aria-label='account of current user'
+              aria-controls='menu-appbar'
+              aria-haspopup='true'
+              onClick={handleMenu}
+              color='inherit'
+            >
+              <AccountCircle />
+            </IconButton>
+            <Menu
+              id='menu-appbar'
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right'
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right'
+              }}
+              open={bukas}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>Logout</MenuItem>
+            </Menu>
           </div>
         </Toolbar>
       </AppBar>
@@ -127,33 +136,21 @@ const Navbar = ({ getMessages, messages }) => {
         </div>
         <Divider />
         <List>
-          {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> :}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))} */}
-
-          <ListItem button key={'tae'}>
+          <ListItem button key={'Posts'}>
             <ListItemIcon>
               <InboxIcon />
             </ListItemIcon>
-            <ListItemText primary={'tae'} />
+            <ListItemText primary={'Posts'} />
+          </ListItem>
+
+          <ListItem button key={'Messages'}>
+            <ListItemIcon>
+              <MailIcon />
+            </ListItemIcon>
+            <ListItemText primary={'Messages'} />
           </ListItem>
         </List>
         <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
       </Drawer>
     </div>
   )

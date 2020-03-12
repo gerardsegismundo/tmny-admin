@@ -15,7 +15,7 @@ const { formatErrMsg } = require('../helpers/utils')
 // @desc     Load user
 // @access   Public
 router.get('/', auth, async (req, res) => {
-  if (!req.user.id) {
+  if (!req.user || !req.user.id) {
     return res.status(400).json({ error: { msg: 'User id error..' } })
   }
 
