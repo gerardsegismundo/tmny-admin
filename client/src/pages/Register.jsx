@@ -13,7 +13,8 @@ const Register = ({
   isLoading,
   authError,
   setIsLoading,
-  register
+  register,
+  history
 }) => {
   const [formData, setFormData] = useState({
     email: 'hahaha',
@@ -75,13 +76,25 @@ const Register = ({
 
       register(email, password)
 
-      if (authError) NotificationManager.success('Account created.', 'Success')
+      if (!authError) {
+        NotificationManager.success('Account created.', 'Success')
+
+        /*
+        ============================ 
+                    ISSUE
+        ============================
+
+         Causes Blank page to dashboard 
+         Maybe infinite loop?
+        ============================*/
+      }
 
       setIsLoading(false)
     }, 1500)
   }
 
-  if (isAuthenticated) return <Redirect to='/dashboard' />
+  // Triggers on account create success result: blank page
+  if (isAuthenticated) return <Redirect to='/dashboard/posts' />
 
   return (
     <div className='register'>

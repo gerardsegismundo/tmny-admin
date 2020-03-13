@@ -31,6 +31,7 @@ router.get('/', auth, async (req, res) => {
 router.post('/', async (req, res) => {
   // Joi validation
   const { error } = validateUser(req.body)
+
   if (error) {
     const msg = formatErrMsg(error.details[0].message)
 

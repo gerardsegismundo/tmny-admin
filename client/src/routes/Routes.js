@@ -12,7 +12,12 @@ const Routes = () => {
   return (
     <Switch>
       <Route exact path='/' component={Login} />
-      <Route exact path='/create-account' component={Register} />
+      <Route
+        exact
+        // path='/'
+        path='/create-account'
+        render={routeProps => <Register {...routeProps} />}
+      />
       <PrivateRoute path='/dashboard' component={Dashboard} />
       <Route path='*' exact={true} component={NotFound} />
     </Switch>

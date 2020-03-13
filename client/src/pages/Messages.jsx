@@ -14,8 +14,8 @@ const Messages = ({ messages }) => {
   )
 }
 
-const mapStateToProps = ({ inbox }) => ({
-  messages: inbox.messages
+const mapStateToProps = ({ messages }) => ({
+  messages: messages.items
 })
 
 export default connect(mapStateToProps)(Messages)

@@ -1,5 +1,5 @@
 const initialState = {
-  messages: []
+  items: []
 }
 
 const messagesReducer = (state = initialState, { type, payload }) => {

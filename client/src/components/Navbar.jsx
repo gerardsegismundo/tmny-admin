@@ -9,11 +9,15 @@ import InboxIcon from '@material-ui/icons/MoveToInbox'
 import MailIcon from '@material-ui/icons/Mail'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 
+import { withRouter } from 'react-router'
+
 import useNavbarStyles from './styles/Navbar.styles'
 import { useTheme } from '@material-ui/core/styles'
 
 import { connect } from 'react-redux'
 import { getMessages } from '../redux/messages/messages.actions'
+import { getPosts } from '../redux/posts/posts.actions'
+import { logout } from '../redux/auth/auth.actions'
 
 import {
   Badge,
@@ -30,10 +34,17 @@ import {
   Tooltip
 } from '@material-ui/core'
 
-const Navbar = ({ getMessages, messages }) => {
+const Navbar = ({
+  getMessages,
+  getPosts,
+  messages,
+  posts,
+  history,
+  logout
+}) => {
   useEffect(() => {
-    getMessages()
-
+    !posts && getPosts()
+    !messages && getMessages()
     // eslint-disable-next-line
   }, [])
 
@@ -52,9 +63,18 @@ const Navbar = ({ getMessages, messages }) => {
     setAnchorEl(null)
   }
 
+  const handleLogout = () => {
+    console.log('logout')
+    logout()
+  }
+
   const handleDrawerOpen = () => setOpen(true)
 
   const handleDrawerClose = () => setOpen(false)
+
+  const changeRoute = route => {
+    history.push('/dashboard/' + route)
+  }
 
   return (
     <div className={classes.root}>
@@ -111,7 +131,7 @@ const Navbar = ({ getMessages, messages }) => {
               open={bukas}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Logout</MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </div>
         </Toolbar>
@@ -136,14 +156,18 @@ const Navbar = ({ getMessages, messages }) => {
         </div>
         <Divider />
         <List>
-          <ListItem button key={'Posts'}>
+          <ListItem button key={'Posts'} onClick={() => changeRoute('posts')}>
             <ListItemIcon>
               <InboxIcon />
             </ListItemIcon>
             <ListItemText primary={'Posts'} />
           </ListItem>
 
-          <ListItem button key={'Messages'}>
+          <ListItem
+            button
+            key={'Messages'}
+            onClick={() => changeRoute('messages')}
+          >
             <ListItemIcon>
               <MailIcon />
             </ListItemIcon>
@@ -156,8 +180,11 @@ const Navbar = ({ getMessages, messages }) => {
   )
 }
 
-const mapStateToProps = ({ inbox }) => ({
-  messages: inbox.messages
+const mapStateToProps = ({ messages, posts }) => ({
+  messages: messages.items,
+  posts: posts.items
 })
 
-export default connect(mapStateToProps, { getMessages })(Navbar)
+export default withRouter(
+  connect(mapStateToProps, { getMessages, getPosts, logout })(Navbar)
+)

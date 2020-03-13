@@ -2,16 +2,9 @@ import axios from 'axios'
 
 // Get messages
 export const getMessages = () => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
-
   try {
-    const res = await axios.get('/api/messages', config)
+    const res = await axios.get('/api/messages')
 
-    console.log(res.data)
     dispatch({
       type: 'GET_MESSAGES',
       payload: res.data
