@@ -13,8 +13,7 @@ const Register = ({
   isLoading,
   authError,
   setIsLoading,
-  register,
-  history
+  register
 }) => {
   const [formData, setFormData] = useState({
     email: 'hahaha',

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import clsx from 'clsx'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
@@ -18,6 +18,8 @@ import { connect } from 'react-redux'
 import { getMessages } from '../redux/messages/messages.actions'
 import { getPosts } from '../redux/posts/posts.actions'
 import { logout } from '../redux/auth/auth.actions'
+
+import useOutsideClick from '../hooks/useOutsideClick'
 
 import {
   Badge,
@@ -63,14 +65,12 @@ const Navbar = ({
     setAnchorEl(null)
   }
 
-  const handleLogout = () => {
-    console.log('logout')
-    logout()
-  }
-
   const handleDrawerOpen = () => setOpen(true)
 
   const handleDrawerClose = () => setOpen(false)
+
+  const navListRef = useRef()
+  useOutsideClick(navListRef, handleDrawerClose)
 
   const changeRoute = route => {
     history.push('/dashboard/' + route)
@@ -100,7 +100,7 @@ const Navbar = ({
 
           <div className={classes.icons}>
             <Tooltip title='Messages'>
-              <IconButton aria-label='show unread messages' color='inherit'>
+              <IconButton aria-label='shows unread messages' color='inherit'>
                 <Badge badgeContent={messages.length} color='secondary'>
                   <MailIcon />
                 </Badge>
@@ -131,7 +131,7 @@ const Navbar = ({
               open={bukas}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              <MenuItem onClick={logout}>Logout</MenuItem>
             </Menu>
           </div>
         </Toolbar>
@@ -155,7 +155,7 @@ const Navbar = ({
           </IconButton>
         </div>
         <Divider />
-        <List>
+        <List ref={navListRef}>
           <ListItem button key={'Posts'} onClick={() => changeRoute('posts')}>
             <ListItemIcon>
               <InboxIcon />
