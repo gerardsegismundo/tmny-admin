@@ -15,7 +15,12 @@ export const loadUser = () => async dispatch => {
 }
 
 // Create accout
-export const register = (email, password) => async dispatch => {
+export const register = (
+  email,
+  password,
+  history,
+  callback
+) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -31,6 +36,8 @@ export const register = (email, password) => async dispatch => {
       type: 'REGISTER_SUCCESS',
       payload: res.data
     })
+
+    callback()
   } catch (err) {
     const { error } = err.response.data
 

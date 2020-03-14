@@ -4,17 +4,21 @@ import { Button, Card, TextField, LinearProgress } from '@material-ui/core'
 import { connect } from 'react-redux'
 import { setIsLoading } from '../redux/ui/ui.actions'
 import { register } from '../redux/auth/auth.actions'
+import { withRouter } from 'react-router-dom'
 
 import ErrorRoundedIcon from '@material-ui/icons/ErrorRounded'
 import { NotificationManager } from 'react-notifications'
 
-const Register = ({
-  isAuthenticated,
-  isLoading,
-  authError,
-  setIsLoading,
-  register
-}) => {
+const Register = props => {
+  const {
+    isAuthenticated,
+    isLoading,
+    authError,
+    setIsLoading,
+    register,
+    history
+  } = props
+
   const [formData, setFormData] = useState({
     email: 'hahaha',
     password: 'hahaha',
@@ -73,26 +77,18 @@ const Register = ({
         return
       }
 
-      register(email, password)
-
-      if (!authError) {
-        NotificationManager.success('Account created.', 'Success')
-
-        /*
-        ============================ 
-                    ISSUE
-        ============================
-
-         Causes Blank page to dashboard 
-         Maybe infinite loop?
-        ============================*/
-      }
+      // Registers account then go to dashboard
+      register(email, password, history, () => {
+        if (!authError) {
+          NotificationManager.success('Account created.', 'Success')
+          history.replace('/dashboard/posts')
+        }
+      })
 
       setIsLoading(false)
     }, 1500)
   }
 
-  // Triggers on account create success result: blank page
   if (isAuthenticated) return <Redirect to='/dashboard/posts' />
 
   return (
@@ -101,14 +97,14 @@ const Register = ({
         {isLoading && <LinearProgress className='register__card__progress' />}
 
         <h1 className='register__card__title'>themomnurseyogi</h1>
-        <form className='register__card__form' onSubmit={e => onSubmit(e)}>
+        <form className='register__card__form' onSubmit={onSubmit}>
           <TextField
             label='Email Address'
             name='email'
             value={email}
             autoFocus={true}
             disabled={isLoading}
-            onChange={e => onChange(e)}
+            onChange={onChange}
             error={error.keys.includes('email')}
             type='email'
           />
@@ -120,7 +116,7 @@ const Register = ({
             value={password}
             disabled={isLoading}
             className='register__card__form--password'
-            onChange={e => onChange(e)}
+            onChange={onChange}
             error={error.keys.includes('password')}
           />
 
@@ -131,7 +127,7 @@ const Register = ({
             value={confirmPassword}
             disabled={isLoading}
             className='register__card__form--confirm-password'
-            onChange={e => onChange(e)}
+            onChange={onChange}
             error={error.keys.includes('confirmPassword')}
           />
 
@@ -163,4 +159,6 @@ const mapStateToProps = ({ ui, auth }) => ({
   isAuthenticated: auth.isAuthenticated
 })
 
-export default connect(mapStateToProps, { register, setIsLoading })(Register)
+export default withRouter(
+  connect(mapStateToProps, { register, setIsLoading })(Register)
+)

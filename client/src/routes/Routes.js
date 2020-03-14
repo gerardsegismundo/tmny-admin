@@ -14,11 +14,11 @@ const Routes = () => {
       <Route exact path='/' component={Login} />
       <Route
         exact
-        // path='/'
+        path='/'
         path='/create-account'
         render={routeProps => <Register {...routeProps} />}
       />
-      <PrivateRoute path='/dashboard' component={Dashboard} />
+      <PrivateRoute path='/dashboard/' component={Dashboard} />
       <Route path='*' exact={true} component={NotFound} />
     </Switch>
   )
