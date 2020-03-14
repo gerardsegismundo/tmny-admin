@@ -60,7 +60,7 @@ const Login = ({
     }, 1500)
   }
 
-  if (isAuthenticated) return <Redirect to='/dashboard' />
+  if (isAuthenticated) return <Redirect to='/dashboard/posts' />
 
   return (
     <div className='login'>
@@ -68,23 +68,24 @@ const Login = ({
         {isLoading && <LinearProgress className='login__card__progress' />}
 
         <h1 className='login__card__title'>themomnurseyogi</h1>
-        <form className='login__card__form' onSubmit={e => onSubmit(e)}>
+        <form className='login__card__form' onSubmit={onSubmit}>
           <TextField
             label='Email'
             name='email'
             value={email}
             autoFocus={true}
             disabled={isLoading}
-            onChange={e => onChange(e)}
+            onChange={onChange}
             error={error.keys.includes('email')}
           />
           <TextField
             label='Password'
             name='password'
+            type='password'
             value={password}
             disabled={isLoading}
             className='login__card__form--password'
-            onChange={e => onChange(e)}
+            onChange={onChange}
             error={error.keys.includes('password')}
           />
 

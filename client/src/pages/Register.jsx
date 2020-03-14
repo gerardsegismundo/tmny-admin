@@ -9,16 +9,14 @@ import { withRouter } from 'react-router-dom'
 import ErrorRoundedIcon from '@material-ui/icons/ErrorRounded'
 import { NotificationManager } from 'react-notifications'
 
-const Register = props => {
-  const {
-    isAuthenticated,
-    isLoading,
-    authError,
-    setIsLoading,
-    register,
-    history
-  } = props
-
+const Register = ({
+  isAuthenticated,
+  isLoading,
+  authError,
+  setIsLoading,
+  register,
+  history
+}) => {
   const [formData, setFormData] = useState({
     email: 'hahaha',
     password: 'hahaha',
