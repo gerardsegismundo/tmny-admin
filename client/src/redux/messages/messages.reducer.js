@@ -7,7 +7,7 @@ const messagesReducer = (state = initialState, { type, payload }) => {
     case 'GET_MESSAGES': {
       return {
         ...state,
-        messages: payload
+        items: payload
       }
     }
     default:

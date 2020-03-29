@@ -1,23 +1,24 @@
 import React, { useEffect, useRef } from 'react'
 import clsx from 'clsx'
+
+import MenuItem from '@material-ui/core/MenuItem'
+import Menu from '@material-ui/core/Menu'
+
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import MenuItem from '@material-ui/core/MenuItem'
-import Menu from '@material-ui/core/Menu'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
-import MailIcon from '@material-ui/icons/Mail'
-import AccountCircle from '@material-ui/icons/AccountCircle'
+import InboxIcon from '@material-ui/icons/Mail'
+import AccountIcon from '@material-ui/icons/AccountCircle'
+import PostIcon from '@material-ui/icons/Assignment'
 
-import { withRouter } from 'react-router'
-
-import useNavbarStyles from './styles/Navbar.styles'
 import { useTheme } from '@material-ui/core/styles'
+import useNavbarStyles from '../styles/Navbar.styles'
 
 import { connect } from 'react-redux'
 import { getMessages } from '../redux/messages/messages.actions'
 import { getPosts } from '../redux/posts/posts.actions'
 import { logout } from '../redux/auth/auth.actions'
+import { withRouter } from 'react-router'
 
 import useOutsideClick from '../hooks/useOutsideClick'
 
@@ -36,17 +37,10 @@ import {
   Tooltip
 } from '@material-ui/core'
 
-const Navbar = ({
-  getMessages,
-  getPosts,
-  messages,
-  posts,
-  history,
-  logout
-}) => {
+const Navbar = ({ getMessages, getPosts, messages, history, logout }) => {
   useEffect(() => {
-    !posts && getPosts()
-    !messages && getMessages()
+    getPosts()
+    getMessages()
     // eslint-disable-next-line
   }, [])
 
@@ -57,24 +51,17 @@ const Navbar = ({
   const [anchorEl, setAnchorEl] = React.useState(null)
   const bukas = Boolean(anchorEl)
 
-  const handleMenu = event => {
-    setAnchorEl(event.currentTarget)
-  }
-
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
+  const handleMenu = e => setAnchorEl(e.currentTarget)
+  const handleClose = () => setAnchorEl(null)
 
   const handleDrawerOpen = () => setOpen(true)
-
   const handleDrawerClose = () => setOpen(false)
 
+  const changeRoute = route => history.push('/dashboard/' + route)
+
+  // Closing sideNav on outsideClick
   const navListRef = useRef()
   useOutsideClick(navListRef, handleDrawerClose)
-
-  const changeRoute = route => {
-    history.push('/dashboard/' + route)
-  }
 
   return (
     <div className={classes.root}>
@@ -99,23 +86,40 @@ const Navbar = ({
           </Typography>
 
           <div className={classes.icons}>
+            <Tooltip title='Posts'>
+              <IconButton
+                aria-label='link to posts'
+                color='inherit'
+                onClick={() => changeRoute('posts')}
+              >
+                <PostIcon />
+              </IconButton>
+            </Tooltip>
+
             <Tooltip title='Messages'>
-              <IconButton aria-label='shows unread messages' color='inherit'>
+              <IconButton
+                aria-label='shows unread messages'
+                onClick={() => changeRoute('messages')}
+                color='inherit'
+              >
                 <Badge badgeContent={messages.length} color='secondary'>
-                  <MailIcon />
+                  <InboxIcon />
                 </Badge>
               </IconButton>
             </Tooltip>
 
-            <IconButton
-              aria-label='account of current user'
-              aria-controls='menu-appbar'
-              aria-haspopup='true'
-              onClick={handleMenu}
-              color='inherit'
-            >
-              <AccountCircle />
-            </IconButton>
+            <Tooltip title='Account'>
+              <IconButton
+                aria-label='account of current user'
+                aria-controls='menu-appbar'
+                aria-haspopup='true'
+                onClick={handleMenu}
+                color='inherit'
+              >
+                <AccountIcon />
+              </IconButton>
+            </Tooltip>
+
             <Menu
               id='menu-appbar'
               anchorEl={anchorEl}
@@ -158,7 +162,7 @@ const Navbar = ({
         <List ref={navListRef}>
           <ListItem button key={'Posts'} onClick={() => changeRoute('posts')}>
             <ListItemIcon>
-              <InboxIcon />
+              <PostIcon onClick={() => changeRoute('posts')} />
             </ListItemIcon>
             <ListItemText primary={'Posts'} />
           </ListItem>
@@ -169,7 +173,7 @@ const Navbar = ({
             onClick={() => changeRoute('messages')}
           >
             <ListItemIcon>
-              <MailIcon />
+              <InboxIcon onClick={() => changeRoute('messages')} />
             </ListItemIcon>
             <ListItemText primary={'Messages'} />
           </ListItem>

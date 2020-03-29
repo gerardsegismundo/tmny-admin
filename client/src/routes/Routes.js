@@ -14,7 +14,6 @@ const Routes = () => {
       <Route exact path='/' component={Login} />
       <Route
         exact
-        path='/'
         path='/create-account'
         render={routeProps => <Register {...routeProps} />}
       />

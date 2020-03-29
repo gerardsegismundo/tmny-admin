@@ -6,8 +6,8 @@ const Messages = ({ messages }) => {
     <div className='messages'>
       <h2>Messages</h2>
       <ul>
-        {messages.map(message => (
-          <li>{message.body}</li>
+        {messages.map(m => (
+          <li>{m.body}</li>
         ))}
       </ul>
     </div>
