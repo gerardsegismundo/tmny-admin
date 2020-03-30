@@ -29,7 +29,6 @@ router.get('/', auth, async (req, res) => {
 // @desc     Authenticate user & get token
 // @access   Public
 router.post('/', async (req, res) => {
-  // Joi validation
   const { error } = validateUser(req.body)
 
   if (error) {
@@ -46,7 +45,6 @@ router.post('/', async (req, res) => {
     let user = await User.findOne({ email })
 
     if (!user) {
-      console.log('invalid credentials')
       return res.status(400).json({
         error: { keys: ['email', 'password'], msg: 'Invalid credentials.' }
       })

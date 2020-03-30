@@ -1,4 +1,6 @@
 $primary-color: #095379;
+$elegant-color-dark: #212121;
+$elegant-color: #2e2e2e;
 $primary-linear-gradient: linear-gradient(
   45deg,
   rgba(2, 0, 36, 1) 0%,
@@ -9,3 +11,5 @@ $error-color: #d93025;
 
 $depth-3: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12),
   0 5px 5px -3px rgba(0, 0, 0, 0.2);
+
+$primary-font-cursive: 'Shadows Into Light', cursive;

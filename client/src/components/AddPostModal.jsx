@@ -14,7 +14,7 @@ import StyledIconButton from '../styles/styledComponents/StyledIconButton'
 
 const AddPostModal = ({ isOpen, handleOpen, handleClose }) => {
   const classes = AddPostModalStyles()
-
+  // eslint-disable-next-line
   const [formData, setFormData] = useState({
     title: '',
     hashtags: [],

@@ -7,6 +7,7 @@ import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import { Tooltip } from '@material-ui/core'
 import AddPostModal from '../components/AddPostModal'
+import PostItem from '../components/PostItem'
 
 const Posts = ({ posts }) => {
   const classes = usePostStyles()
@@ -17,29 +18,31 @@ const Posts = ({ posts }) => {
     handleClose = () => setIsOpen(false)
 
   return (
-    posts && (
-      <div className='posts'>
-        <h2>POSTS</h2>
-        <ul>{posts && posts.map(p => <li key={p._id}>{p.body}</li>)}</ul>
+    <div className='posts'>
+      <h2 className='posts--heading'>POSTS</h2>
+      <ul>
+        {posts.map(props => (
+          <PostItem {...props} key={props._id} />
+        ))}
+      </ul>
 
-        <Tooltip title='Create post'>
-          <Fab
-            className={classes.fab}
-            color='secondary'
-            aria-label='add'
-            onClick={handleOpen}
-          >
-            <AddIcon />
-          </Fab>
-        </Tooltip>
+      <Tooltip title='Create post'>
+        <Fab
+          className={classes.fab}
+          color='secondary'
+          aria-label='add'
+          onClick={handleOpen}
+        >
+          <AddIcon />
+        </Fab>
+      </Tooltip>
 
-        <AddPostModal
-          isOpen={isOpen}
-          handleOpen={handleOpen}
-          handleClose={handleClose}
-        />
-      </div>
-    )
+      <AddPostModal
+        isOpen={isOpen}
+        handleOpen={handleOpen}
+        handleClose={handleClose}
+      />
+    </div>
   )
 }
 
