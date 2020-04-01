@@ -31,9 +31,13 @@ const StyledSecondaryIconButton = withStyles({
   }
 })(IconButton)
 
-export default ({ color = 'primary', children }) =>
+export default ({ color = 'primary', children, onClick }) =>
   color === 'primary' ? (
-    <StyledIconPrimaryButton>{children}</StyledIconPrimaryButton>
+    <StyledIconPrimaryButton onClick={onClick}>
+      {children}
+    </StyledIconPrimaryButton>
   ) : (
-    <StyledSecondaryIconButton>{children}</StyledSecondaryIconButton>
+    <StyledSecondaryIconButton onClick={onClick}>
+      {children}
+    </StyledSecondaryIconButton>
   )

@@ -18,11 +18,16 @@
     90deg,
     rgba(2, 0, 36, 1) 0%,
     rgba(9, 83, 121, 1) 6%,
-    rgba(0, 212, 255, 1) 100%
+    rgba(10, 182, 216, 0.884) 100%
   );
 }
 
 //  -----  Button  ------------------------------------ //
+
+.MuiChip-root.MuiChip-colorPrimary {
+  background: $primary-linear-gradient;
+  background-size: 200% 100%;
+}
 
 .MuiButtonBase-root.MuiButton-root {
   border-radius: 50px;
@@ -30,7 +35,6 @@
 
   &.MuiButton-containedPrimary {
     background: $primary-linear-gradient;
-
     background-size: 200% 100%;
     transition: all ease-in-out 0.3s;
 
