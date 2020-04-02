@@ -10,8 +10,9 @@ const AddPostModalStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    width: '60vw',
-    minHeight: '75vh'
+    minWidth: '60rem',
+    minHeight: '75vh',
+    overflow: 'auto'
   },
 
   heading: {
@@ -35,13 +36,14 @@ const AddPostModalStyles = makeStyles(theme => ({
   bodyTextarea: {
     display: 'block',
     width: '100%',
-    marginTop: '1rem',
+    marginTop: '2rem',
     padding: '.5rem',
     minHeight: '20rem'
   },
 
   hashtagChips: {
-    marginRight: '.5rem'
+    marginRight: '.5rem',
+    marginBottom: '.5rem'
   },
 
   submitBtn: {

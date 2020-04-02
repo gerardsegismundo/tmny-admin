@@ -6,13 +6,14 @@ import usePostStyles from '../styles/Posts.styles'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import { Tooltip } from '@material-ui/core'
-import AddPostModal from '../components/AddPostModal'
 import PostItem from '../components/PostItem'
+
+import AddPostModal from '../components/AddPostModal/'
 
 const Posts = ({ posts }) => {
   const classes = usePostStyles()
 
-  // Post modal props
+  // AddPostModal
   const [isOpen, setIsOpen] = useState(false),
     handleOpen = () => setIsOpen(true),
     handleClose = () => setIsOpen(false)
