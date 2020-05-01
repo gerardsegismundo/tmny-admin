@@ -3,8 +3,12 @@ const { jwtSecret } = require('../config/keys')
 
 const auth = async (req, res, next) => {
   const token = req.header('x-auth-token')
+  // if (!token) throw new Error()
 
-  if (!token) throw new Error()
+  if (!token) {
+    console.log('No token provided')
+    return res.status(401).send({ error: 'Please authenticate.' })
+  }
 
   try {
     const decoded = jwt.verify(token, jwtSecret)

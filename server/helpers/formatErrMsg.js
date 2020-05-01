@@ -4,4 +4,4 @@ const formatErrMsg = errorMsg => {
   return noQuoteMsg.charAt(0).toUpperCase() + noQuoteMsg.substring(1) + '.'
 }
 
-exports.formatErrMsg = formatErrMsg
+module.exports = formatErrMsg

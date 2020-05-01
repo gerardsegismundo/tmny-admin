@@ -1,6 +1,9 @@
 const express = require('express')
-require('express-async-errors')
+const expressMongoDb = require('express-mongo-db')
+const fileUpload = require('express-fileupload')
 
+require('express-async-errors')
+const { mongoURI } = require('./keys')
 // Models
 require('../models/User.model')
 require('../models/Message.model')
@@ -13,9 +16,11 @@ const messagesRoute = require('../routes/messages.routes')
 const postRoute = require('../routes/posts.routes')
 
 module.exports = app => {
+  app.use(fileUpload())
+  app.use(expressMongoDb(mongoURI))
   app.use(express.json())
+  app.use('/api/posts', postRoute)
   app.use('/api/auth', authRoute)
   app.use('/api/users', usersRoute)
   app.use('/api/messages', messagesRoute)
-  app.use('/api/posts', postRoute)
 }

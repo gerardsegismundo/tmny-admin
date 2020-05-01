@@ -1,17 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Zoom, Backdrop, Modal } from '@material-ui/core/'
 import AddFormSection from './AddFormSection'
-import ImageUploadSection from './ImageUploadSection'
 
 import AddPostModalStyles from '../../styles/AddPostModal.styles'
 
 const AddPostModal = ({ isOpen, handleOpen, handleClose }) => {
   const classes = AddPostModalStyles()
-
-  const [isOnAddForm, setIsOnAddForm] = useState(false)
-
-  const handleOnNext = () => setIsOnAddForm(false)
-  const handleOnPrevious = () => setIsOnAddForm(true)
 
   return (
     <Modal
@@ -28,11 +22,7 @@ const AddPostModal = ({ isOpen, handleOpen, handleClose }) => {
       {/* <Zoom in={isOpen}> */}
       <Zoom in={true}>
         <div className={classes.paper}>
-          {isOnAddForm ? (
-            <AddFormSection handleOnNext={handleOnNext} classes={classes} />
-          ) : (
-            <ImageUploadSection handleOnPrevious={handleOnPrevious} />
-          )}
+          <AddFormSection classes={classes} />
         </div>
       </Zoom>
     </Modal>

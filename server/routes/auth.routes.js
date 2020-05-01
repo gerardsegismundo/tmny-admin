@@ -7,9 +7,8 @@ const auth = require('../middleware/auth')
 
 const { model } = require('mongoose')
 const User = model('user')
-
 const { validateUser } = require('../validations/validateUser')
-const { formatErrMsg } = require('../helpers/utils')
+const { formatErrMsg } = require('../helpers')
 
 // @route    GET api/auth
 // @desc     Load user

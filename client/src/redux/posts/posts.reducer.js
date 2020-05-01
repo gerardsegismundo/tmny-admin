@@ -9,6 +9,11 @@ const postsReducer = (state = initialState, { type, payload }) => {
         ...state,
         items: payload
       }
+    case 'ADD_POST':
+      return {
+        ...state,
+        items: [...state.items, payload]
+      }
 
     default:
       return state

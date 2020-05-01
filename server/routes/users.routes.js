@@ -9,7 +9,7 @@ const User = model('user')
 
 const { jwtSecret } = require('../config/keys')
 const { validateUser } = require('../validations/validateUser')
-const { formatErrMsg } = require('../helpers/utils')
+const { formatErrMsg } = require('../helpers')
 
 // @route   POST api/users
 // @desc    Create account

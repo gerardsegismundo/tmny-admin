@@ -7,9 +7,7 @@ const PostSchema = new Schema(
       type: String,
       required: true
     },
-
     hashtags: Array,
-
     likes: [
       {
         user: {
@@ -50,16 +48,11 @@ const PostSchema = new Schema(
 
 const validatePost = post => {
   const schema = {
-    title: Joi.string()
-      .min(3)
-      .max(50)
-      .required(),
+    title: Joi.string().min(3).max(50).required(),
     avatar: Joi.string().uri({
       scheme: [/https?/]
     }),
-    text: Joi.string()
-      .min(3)
-      .required()
+    text: Joi.string().min(3).required()
   }
 
   return Joi.validate(post, schema)

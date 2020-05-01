@@ -2,9 +2,13 @@ const express = require('express')
 const app = express()
 const path = require('path')
 
-require('./config/db')()
+// Database connection
+require('./config/db')
+
+// Routes
 require('./config/routes')(app)
 
+// Production config
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
   app.use(express.static('client/build'))
