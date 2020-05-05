@@ -68,11 +68,13 @@ const AddPostModalStyles = makeStyles(theme => ({
 
   uploadImageContainer: {
     display: 'flex',
+    alignItems: 'center',
     marginTop: '1.5rem',
     marginBottom: '1rem'
   },
 
   uploadImage: {
+    marginRight: '1rem',
     display: 'flex'
   },
 

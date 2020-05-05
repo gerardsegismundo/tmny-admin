@@ -8,9 +8,10 @@ import {
   Button,
   Box
 } from '@material-ui/core/'
-import PhotoCameraIcon from '@material-ui/icons/PhotoCamera'
+import UploadIcon from '@material-ui/icons/Publish'
 import AddIcon from '@material-ui/icons/Add'
 import CancelIcon from '@material-ui/icons/Cancel'
+import LinkIcon from '@material-ui/icons/Link'
 import StyledIconButton from '../../styles/styledComponents/StyledIconButton'
 import { DropzoneDialog } from 'material-ui-dropzone'
 import useOnKeyDownEnter from '../../hooks/useOnKeyDownEnter'
@@ -18,15 +19,19 @@ import useOnKeyDownEnter from '../../hooks/useOnKeyDownEnter'
 import { connect } from 'react-redux'
 import { addPost } from '../../redux/posts/posts.actions'
 
+import { getPostDetailsJSON } from '../../utils/'
+
 const AddFormSection = ({ classes, addPost }) => {
+  const [imgIsLink, setIsLink] = useState(false)
   const [postData, setPostData] = useState({
     title: '',
     pushtoHashtags: '',
     hashtags: ['jabascript', 'workout', 'abs'],
     body: '',
+    imgURL: '',
     imgFile: {}
   })
-  const { title, hashtags, body, pushtoHashtags } = postData
+  const { title, hashtags, body, pushtoHashtags, imgURL, imgFile } = postData
 
   const onChange = e => {
     setPostData({ ...postData, [e.target.name]: e.target.value })
@@ -45,7 +50,6 @@ const AddFormSection = ({ classes, addPost }) => {
   useOnKeyDownEnter('hastags-textfield', handleAddHashtag)
 
   const handleDeleteHashtag = i => {
-    let { hashtags } = postData
     hashtags.splice(i, 1)
 
     setPostData({
@@ -54,27 +58,31 @@ const AddFormSection = ({ classes, addPost }) => {
     })
   }
 
-  const handleSaveImage = imgFile => {
+  const handleSaveImage = file => {
+    console.log(file[0])
     setPostData({
       ...postData,
-      imgFile
+      imgFile: file[0]
     })
+
     setDialogIsOpen(false)
+
+    console.log(postData)
   }
 
-  const getPostDetails = () => {
-    let postDetails = { ...postData }
-    delete postDetails.pushtoHashtags
-    delete postDetails.imgFile
-
-    return postDetails
+  const handleUploadClick = () => {
+    setDialogIsOpen(true)
+    setIsLink(false)
   }
 
-  // const handleAddPost = () => addPost(getPostDetails())
+  const handleAddLink = () => {
+    setIsLink(!imgIsLink)
+
+    if (imgFile) setPostData({ ...postData, imgFile: {} })
+  }
+
   const handleAddPost = async () => {
-    const imgFile = postData.imgFile[0]
-    const details = JSON.stringify(getPostDetails())
-
+    const details = getPostDetailsJSON(postData)
     addPost(details, imgFile)
   }
 
@@ -145,18 +153,38 @@ const AddFormSection = ({ classes, addPost }) => {
             variant='contained'
             color='primary'
             className={classes.uploadImage}
-            endIcon={<PhotoCameraIcon />}
-            onClick={() => setDialogIsOpen(true)}
+            endIcon={<UploadIcon />}
+            onClick={handleUploadClick}
           >
             Image upload
           </Button>
+          <Button
+            onClick={handleAddLink}
+            variant='contained'
+            color='primary'
+            className={classes.uploadImage}
+            endIcon={<LinkIcon />}
+          >
+            Image Link
+          </Button>
 
-          {postData.imgFile[0] && (
+          {imgIsLink && (
+            <TextField
+              label='Url'
+              name='imgURL'
+              value={imgURL}
+              autoFocus={true}
+              onChange={onChange}
+              className={classes.imgURLTextfield}
+            />
+          )}
+
+          {!imgIsLink && postData.imgFile.name && (
             <span
               className={classes.uploadImageInfo}
               style={{ display: 'flex', alignContent: 'center' }}
             >
-              {postData.imgFile[0].name}
+              {postData.imgFile.name}
 
               <CancelIcon
                 className={classes.cancelIcon}

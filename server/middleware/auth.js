@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken')
 const { jwtSecret } = require('../config/keys')
 
 const auth = async (req, res, next) => {
+  console.log('AUTH!!')
   const token = req.header('x-auth-token')
   // if (!token) throw new Error()
 

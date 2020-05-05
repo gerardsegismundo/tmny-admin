@@ -1,11 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
-// middleware
-const auth = require('../middleware/auth')
-const upload = require('../middleware/upload')
-
-// helper
+// Middleware && helpers
+const { uploadImage, auth } = require('../middleware')
 const { getGfs } = require('../helpers')
 
 // POST model
@@ -25,7 +22,10 @@ router.get('/', auth, async (req, res) => {
 })
 
 // Create Post
-router.post('/', auth, async (req, res) => {
+router.post('/', auth, uploadImage, async (req, res) => {
+  console.log('AFTER UPLOAD FILENAME:', req.filename)
+
+  console.log(req.files.imgFile)
   if (req.files === null) {
     return res.status(400).json({ msg: 'No file uploaded' })
   }

@@ -17,14 +17,14 @@ export const getPosts = () => async dispatch => {
 }
 
 export const addPost = (details, imgFile) => async dispatch => {
-  const formData = new FormData()
+  const fd = new FormData()
 
-  formData.append('details', details)
-  formData.append('imgFile', imgFile)
+  fd.append('details', details)
+  fd.append('imgFile', imgFile)
 
   try {
     const config = { headers: { 'Content-Type': 'multipart/form-data' } }
-    const res = await axios.post('/api/posts', formData, config)
+    const res = await axios.post('/api/posts', fd, config)
 
     console.log(res)
   } catch (err) {
