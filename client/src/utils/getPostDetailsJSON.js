@@ -5,6 +5,7 @@ const getPostDetailsJSON = postData => {
   let postDetails = { ...postData }
   delete postDetails.pushtoHashtags
   delete postDetails.imgFile
+  delete postDetails.imgURL
 
   return JSON.stringify(postDetails)
 }

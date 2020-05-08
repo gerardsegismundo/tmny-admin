@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import {
   Zoom,
@@ -19,29 +19,58 @@ import useOnKeyDownEnter from '../../hooks/useOnKeyDownEnter'
 import { connect } from 'react-redux'
 import { addPost } from '../../redux/posts/posts.actions'
 
-import { getPostDetailsJSON } from '../../utils/'
+import { getPostDetailsJSON, isValidURL } from '../../utils/'
 
-const AddFormSection = ({ classes, addPost }) => {
+const AddFormSection = ({ classes, addPost, existingPosts }) => {
   const [imgIsLink, setIsLink] = useState(false)
-  const [postData, setPostData] = useState({
+  const [formData, setFormData] = useState({
     title: '',
     pushtoHashtags: '',
-    hashtags: ['jabascript', 'workout', 'abs'],
+    hashtags: [],
     body: '',
     imgURL: '',
     imgFile: {}
   })
-  const { title, hashtags, body, pushtoHashtags, imgURL, imgFile } = postData
+
+  const { title, hashtags, body, pushtoHashtags, imgURL, imgFile } = formData
+
+  const [error, setError] = useState({
+    title: '',
+    pushtoHashtags: '',
+    hashtags: [],
+    body: '',
+    imgURL: '',
+    imgFile: {}
+  })
+  const hasError = label => (error[label].length > 0 ? true : false)
+  const getError = label => (error[label] ? error[label] : null)
 
   const onChange = e => {
-    setPostData({ ...postData, [e.target.name]: e.target.value })
+    const { name, value } = e.target
+
+    if (hasError(name)) setError({ ...error, [name]: '' })
+    setFormData({ ...formData, [name]: value })
+  }
+  const clearForm = () => {
+    setFormData({
+      title: '',
+      pushtoHashtags: '',
+      hashtags: [],
+      body: '',
+      imgURL: '',
+      imgFile: {}
+    })
   }
 
   const handleAddHashtag = () => {
     if (!pushtoHashtags) return
 
-    setPostData({
-      ...postData,
+    if (hashtags.includes(pushtoHashtags)) {
+      return setError({ ...error, pushtoHashtags: 'Hashtag already exists.' })
+    }
+
+    setFormData({
+      ...formData,
       pushtoHashtags: '',
       hashtags: [...hashtags, pushtoHashtags]
     })
@@ -52,22 +81,19 @@ const AddFormSection = ({ classes, addPost }) => {
   const handleDeleteHashtag = i => {
     hashtags.splice(i, 1)
 
-    setPostData({
-      ...postData,
+    setFormData({
+      ...formData,
       hashtags
     })
   }
 
   const handleSaveImage = file => {
-    console.log(file[0])
-    setPostData({
-      ...postData,
+    setFormData({
+      ...formData,
       imgFile: file[0]
     })
 
     setDialogIsOpen(false)
-
-    console.log(postData)
   }
 
   const handleUploadClick = () => {
@@ -77,18 +103,31 @@ const AddFormSection = ({ classes, addPost }) => {
 
   const handleAddLink = () => {
     setIsLink(!imgIsLink)
-
-    if (imgFile) setPostData({ ...postData, imgFile: {} })
+    if (imgFile) setFormData({ ...formData, imgFile: {} })
   }
 
   const handleAddPost = async () => {
-    const details = getPostDetailsJSON(postData)
-    addPost(details, imgFile)
+    setError({
+      ...error,
+      title: existingPosts.includes(formData.title)
+        ? 'Title already exists.'
+        : '',
+      imgURL:
+        formData.imgURL && !isValidURL(formData.imgURL)
+          ? 'Not a valid URL format'
+          : ''
+    })
+
+    if (error.imgURL.length > 0 || error.title.length > 0) {
+      return console.log('ERRROR!!')
+    } else {
+      console.log('ADDPOST!!!')
+    }
   }
 
   const cancelImg = () => {
-    setPostData({
-      ...postData,
+    setFormData({
+      ...formData,
       imgFile: {}
     })
   }
@@ -106,6 +145,8 @@ const AddFormSection = ({ classes, addPost }) => {
           autoFocus={true}
           onChange={onChange}
           className={classes.titleTextfield}
+          error={hasError('title')}
+          helperText={getError('title')}
         />
 
         <div className='add-post-modal__hashtags-input'>
@@ -116,6 +157,8 @@ const AddFormSection = ({ classes, addPost }) => {
             onChange={onChange}
             className={classes.hashtagsTextfield}
             value={pushtoHashtags}
+            error={hasError('pushtoHashtags')}
+            helperText={getError('pushtoHashtags')}
           />
 
           <StyledIconButton
@@ -168,23 +211,12 @@ const AddFormSection = ({ classes, addPost }) => {
             Image Link
           </Button>
 
-          {imgIsLink && (
-            <TextField
-              label='Url'
-              name='imgURL'
-              value={imgURL}
-              autoFocus={true}
-              onChange={onChange}
-              className={classes.imgURLTextfield}
-            />
-          )}
-
-          {!imgIsLink && postData.imgFile.name && (
+          {!imgIsLink && formData.imgFile.name && (
             <span
               className={classes.uploadImageInfo}
               style={{ display: 'flex', alignContent: 'center' }}
             >
-              {postData.imgFile.name}
+              {formData.imgFile.name}
 
               <CancelIcon
                 className={classes.cancelIcon}
@@ -195,6 +227,19 @@ const AddFormSection = ({ classes, addPost }) => {
             </span>
           )}
         </div>
+
+        {imgIsLink && (
+          <TextField
+            label='Url'
+            name='imgURL'
+            value={imgURL}
+            autoFocus={true}
+            onChange={onChange}
+            className={classes.imgURLTextfield}
+            error={hasError('imgURL')}
+            helperText={getError('imgURL')}
+          />
+        )}
 
         <DropzoneDialog
           open={isDialogOpen}
@@ -212,6 +257,7 @@ const AddFormSection = ({ classes, addPost }) => {
           placeholder='Body'
           name='body'
           vallue={body}
+          // error={hasError('body')}
         />
 
         <Button
@@ -228,4 +274,8 @@ const AddFormSection = ({ classes, addPost }) => {
   )
 }
 
-export default connect(null, { addPost })(AddFormSection)
+const mapStateToProps = ({ posts }) => ({
+  existingPosts: posts.items.map(({ title }) => title)
+})
+
+export default connect(mapStateToProps, { addPost })(AddFormSection)

@@ -12,11 +12,9 @@ export const getPosts = () => async dispatch => {
   } catch (err) {
     console.warn(err)
   }
-
-  console.log('getPosts')
 }
 
-export const addPost = (details, imgFile) => async dispatch => {
+const addPostWithImgFile = async (details, imgFile) => {
   const fd = new FormData()
 
   fd.append('details', details)
@@ -29,5 +27,25 @@ export const addPost = (details, imgFile) => async dispatch => {
     console.log(res)
   } catch (err) {
     console.log(err)
+  }
+}
+
+const addPostwithImgURL = async details => {
+  delete details.imgFile
+  delete details.pushtoHashtags
+
+  try {
+    const res = await axios.post('/api/posts', details)
+    console.log(res)
+  } catch (error) {}
+}
+
+export const addPost = (details, imgFile) => async dispatch => {
+  // with IMAGE FILE
+  if (imgFile) {
+    addPostWithImgFile(details, imgFile)
+    // WITH LINK
+  } else {
+    addPostwithImgURL(details)
   }
 }

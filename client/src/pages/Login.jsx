@@ -73,6 +73,7 @@ const Login = ({
             label='Email'
             name='email'
             value={email}
+            autoComplete='email'
             autoFocus={true}
             disabled={isLoading}
             onChange={onChange}
@@ -81,6 +82,7 @@ const Login = ({
           <TextField
             label='Password'
             name='password'
+            autoComplete='current-password'
             type='password'
             value={password}
             disabled={isLoading}

@@ -70,7 +70,8 @@ const AddPostModalStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     marginTop: '1.5rem',
-    marginBottom: '1rem'
+    marginBottom: '1rem',
+    height: '3rem'
   },
 
   uploadImage: {
@@ -82,6 +83,10 @@ const AddPostModalStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     marginLeft: '2rem'
+  },
+
+  imgURLTextfield: {
+    width: '100%'
   },
 
   cancelIcon: {

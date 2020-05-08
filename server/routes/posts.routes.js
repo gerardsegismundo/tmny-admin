@@ -23,18 +23,34 @@ router.get('/', auth, async (req, res) => {
 
 // Create Post
 router.post('/', auth, uploadImage, async (req, res) => {
-  console.log('AFTER UPLOAD FILENAME:', req.filename)
+  // IMAGEURL INSTEAD OF FILE
+  if (!req.files) {
+    const { title, hashtags, body, imgURL } = req.body
 
-  console.log(req.files.imgFile)
-  if (req.files === null) {
-    return res.status(400).json({ msg: 'No file uploaded' })
+    const post = Post.findOne({ title })
+    if (post) return res.status(400).send('Title already exists.')
+
+    const newPost = new Post({
+      title,
+      hashtags,
+      body,
+      imgURL
+    })
+
+    await newPost.save()
+
+    res.send(newPost)
+    // return res.status(400).json({ msg: 'No file uploaded' })
+  } else {
+    console.log('TAES')
+    console.log(req.body)
+    res.send(req.body)
   }
+  // const gfs = getGfs(req.db)
 
-  const gfs = getGfs(req.db)
+  // const file = req.files.file
 
-  const file = req.files.file
-
-  res.json({ file: file, details: req.body.details })
+  // res.json({ file: file, details: req.body.details })
 })
 
 module.exports = router
