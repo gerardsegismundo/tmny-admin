@@ -10,8 +10,7 @@ const AddPostModal = ({ isOpen, handleOpen, handleClose }) => {
   return (
     <Modal
       className={classes.modal}
-      // open={isOpen}
-      open={true}
+      open={isOpen}
       onClose={handleClose}
       closeAfterTransition
       BackdropComponent={Backdrop}
@@ -19,10 +18,9 @@ const AddPostModal = ({ isOpen, handleOpen, handleClose }) => {
         timeout: 500
       }}
     >
-      {/* <Zoom in={isOpen}> */}
-      <Zoom in={true}>
+      <Zoom in={isOpen}>
         <div className={classes.paper}>
-          <AddFormSection classes={classes} />
+          <AddFormSection classes={classes} closeForm={handleClose} />
         </div>
       </Zoom>
     </Modal>

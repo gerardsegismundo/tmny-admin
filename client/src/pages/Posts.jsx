@@ -14,7 +14,7 @@ const Posts = ({ posts }) => {
   const classes = usePostStyles()
 
   // AddPostModal
-  const [isOpen, setIsOpen] = useState(false),
+  const [isOpen, setIsOpen] = useState(true),
     handleOpen = () => setIsOpen(true),
     handleClose = () => setIsOpen(false)
 

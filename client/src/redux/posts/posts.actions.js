@@ -1,4 +1,5 @@
 import axios from 'axios'
+import _ from 'lodash'
 
 // Get posts
 export const getPosts = () => async dispatch => {
@@ -30,22 +31,30 @@ const addPostWithImgFile = async (details, imgFile) => {
   }
 }
 
-const addPostwithImgURL = async details => {
+const addPostwithImgURL = async (details, dispatch) => {
   delete details.imgFile
   delete details.pushtoHashtags
 
   try {
     const res = await axios.post('/api/posts', details)
-    console.log(res)
-  } catch (error) {}
+    console.log(res.data)
+    // dispatch({
+    //   type: 'ADD_POST',
+    //   items: res.data
+    // })
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 export const addPost = (details, imgFile) => async dispatch => {
+  console.log(details)
   // with IMAGE FILE
-  if (imgFile) {
+  if (!_.isEmpty(imgFile)) {
     addPostWithImgFile(details, imgFile)
-    // WITH LINK
-  } else {
-    addPostwithImgURL(details)
+  }
+  // WITH LINK
+  else {
+    addPostwithImgURL(details, dispatch)
   }
 }

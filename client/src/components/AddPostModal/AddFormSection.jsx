@@ -21,7 +21,9 @@ import { addPost } from '../../redux/posts/posts.actions'
 
 import { getPostDetailsJSON, isValidURL } from '../../utils/'
 
-const AddFormSection = ({ classes, addPost, existingPosts }) => {
+const AddFormSection = props => {
+  const { classes, addPost, existingPosts, closeForm } = props
+
   const [imgIsLink, setIsLink] = useState(false)
   const [formData, setFormData] = useState({
     title: '',
@@ -121,7 +123,10 @@ const AddFormSection = ({ classes, addPost, existingPosts }) => {
     if (error.imgURL.length > 0 || error.title.length > 0) {
       return console.log('ERRROR!!')
     } else {
-      console.log('ADDPOST!!!')
+      // const details = getPostDetailsJSON(formData)
+      addPost(formData, imgFile)
+      closeForm()
+      clearForm()
     }
   }
 
@@ -211,7 +216,7 @@ const AddFormSection = ({ classes, addPost, existingPosts }) => {
             Image Link
           </Button>
 
-          {!imgIsLink && formData.imgFile.name && (
+          {!imgIsLink && formData.imgFile && formData.imgFile.name && (
             <span
               className={classes.uploadImageInfo}
               style={{ display: 'flex', alignContent: 'center' }}

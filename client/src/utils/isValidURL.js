@@ -9,7 +9,6 @@ const isValidURL = str => {
     'i'
   ) // fragment locator
 
-  console.log(!!pattern.test(str))
   return !!pattern.test(str)
 }
 
