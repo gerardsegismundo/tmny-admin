@@ -9,39 +9,50 @@ import { Tooltip } from '@material-ui/core'
 import PostItem from '../components/PostItem'
 
 import AddPostModal from '../components/AddPostModal/'
+import DeletePostDialog from '../components/DeletePostDialog'
 
 const Posts = ({ posts }) => {
   const classes = usePostStyles()
 
-  // AddPostModal
-  const [isOpen, setIsOpen] = useState(true),
-    handleOpen = () => setIsOpen(true),
-    handleClose = () => setIsOpen(false)
+  const [deleteDialogIsOpen, setDeleteDialogIsOpen] = useState(false)
+
+  const handleDelete = id => {
+    console.log(id)
+    setDeleteDialogIsOpen(true)
+  }
+
+  const [addModalIsOpen, setAddModalIsOpen] = useState(false)
 
   return (
     <div className='posts'>
       <h2 className='posts--heading'>POSTS</h2>
       <ul>
         {posts.map(props => (
-          <PostItem {...props} key={props._id} />
+          <PostItem
+            {...props}
+            key={props._id}
+            handleDelete={e => {
+              handleDelete(e)
+            }}
+          />
         ))}
       </ul>
 
       <Tooltip title='Create post'>
-        <Fab
-          className={classes.fab}
-          color='secondary'
-          aria-label='add'
-          onClick={handleOpen}
-        >
+        <Fab color='secondary' onClick={() => setAddModalIsOpen(true)}>
           <AddIcon />
         </Fab>
       </Tooltip>
 
       <AddPostModal
-        isOpen={isOpen}
-        handleOpen={handleOpen}
-        handleClose={handleClose}
+        isOpen={addModalIsOpen}
+        handleOpen={() => setAddModalIsOpen(true)}
+        handleClose={() => setAddModalIsOpen(false)}
+      />
+
+      <DeletePostDialog
+        isOpen={deleteDialogIsOpen}
+        handleClose={() => setDeleteDialogIsOpen(false)}
       />
     </div>
   )
