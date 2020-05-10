@@ -10,12 +10,9 @@ const postsReducer = (state = initialState, { type, payload }) => {
         items: payload
       }
     case 'ADD_POST':
-      console.log('ADD_POST')
-      console.log(state)
-      console.log(payload)
       return {
-        ...state
-        // items: [...state.items, payload]
+        ...state,
+        items: [...state.items, payload]
       }
 
     case 'DELETE_POST':

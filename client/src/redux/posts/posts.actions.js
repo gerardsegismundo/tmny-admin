@@ -37,10 +37,10 @@ const addPostwithImgURL = async (details, dispatch) => {
 
   try {
     const res = await axios.post('/api/posts', details)
-    console.log(res.data)
+
     dispatch({
       type: 'ADD_POST',
-      items: res.data
+      payload: res.data
     })
   } catch (err) {
     console.log(err)
