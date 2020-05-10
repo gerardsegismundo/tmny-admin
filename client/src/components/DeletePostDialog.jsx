@@ -6,13 +6,17 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
-const DeletePostDialog = ({ isOpen, handleClose }) => {
+const DeletePostDialog = ({ isOpen, handleClose, confirmDelete }) => {
+  const handleOk = () => {
+    confirmDelete()
+    handleClose()
+  }
+
   return (
     <Dialog
       // fullScreen={fullScreen}
       open={isOpen}
       onClose={handleClose}
-      aria-labelledby='responsive-dialog-title'
     >
       <DialogTitle id='responsive-dialog-title'>{'Delete?'}</DialogTitle>
       <DialogContent>
@@ -24,7 +28,7 @@ const DeletePostDialog = ({ isOpen, handleClose }) => {
         <Button autoFocus onClick={handleClose} color='primary'>
           Cancel
         </Button>
-        <Button onClick={handleClose} color='primary' autoFocus>
+        <Button onClick={handleOk} color='primary' autoFocus>
           Ok
         </Button>
       </DialogActions>

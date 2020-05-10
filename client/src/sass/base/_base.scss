@@ -19,7 +19,8 @@ html {
   font-size: 80%;
   word-spacing: 0.15rem;
   color: #222222;
-  font-family: roboto, 'Noto Sans Myanmar UI', arial, sans-serif;
+  // font-family: roboto, 'Noto Sans Myanmar UI', arial, sans-serif;
+  font-family: 'Open Sans', sans-serif;
 
   @include respond(sm) {
     font-size: 85%;

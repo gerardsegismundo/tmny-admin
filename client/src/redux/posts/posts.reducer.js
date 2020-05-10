@@ -10,9 +10,18 @@ const postsReducer = (state = initialState, { type, payload }) => {
         items: payload
       }
     case 'ADD_POST':
+      console.log('ADD_POST')
+      console.log(state)
+      console.log(payload)
+      return {
+        ...state
+        // items: [...state.items, payload]
+      }
+
+    case 'DELETE_POST':
       return {
         ...state,
-        items: [...state.items, payload]
+        items: state.items.filter(items => items._id !== payload)
       }
 
     default:

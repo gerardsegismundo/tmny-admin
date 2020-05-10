@@ -25,8 +25,7 @@ router.get('/', auth, async (req, res) => {
 router.post('/', auth, uploadImage, async (req, res) => {
   // IMAGEURL INSTEAD OF FILE
   // if (!req.files) {
-  console.log('BIWSHIT')
-  console.log(req.body)
+
   const { title, hashtags, body, imgURL } = req.body
 
   //   const post = Post.findOne({ title })
@@ -42,17 +41,18 @@ router.post('/', auth, uploadImage, async (req, res) => {
   await newPost.save()
 
   res.send(newPost)
-  //   // return res.status(400).json({ msg: 'No file uploaded' })
-  // } else {
-  //   console.log('TAES')
-  //   console.log(req.body)
-  //   res.send(req.body)
-  // }
-  // const gfs = getGfs(req.db)
+})
 
-  // const file = req.files.file
+router.delete('/:id', auth, async (req, res) => {
+  const { id } = req.params
 
-  // res.json({ file: file, details: req.body.details })
+  const post = await Post.findByIdAndRemove(req.params.id)
+
+  if (!post) {
+    return res.status(404).send('The post with the given ID was not found.')
+  }
+
+  res.send({ id })
 })
 
 module.exports = router

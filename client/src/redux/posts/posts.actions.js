@@ -38,17 +38,16 @@ const addPostwithImgURL = async (details, dispatch) => {
   try {
     const res = await axios.post('/api/posts', details)
     console.log(res.data)
-    // dispatch({
-    //   type: 'ADD_POST',
-    //   items: res.data
-    // })
+    dispatch({
+      type: 'ADD_POST',
+      items: res.data
+    })
   } catch (err) {
     console.log(err)
   }
 }
 
 export const addPost = (details, imgFile) => async dispatch => {
-  console.log(details)
   // with IMAGE FILE
   if (!_.isEmpty(imgFile)) {
     addPostWithImgFile(details, imgFile)
@@ -57,4 +56,12 @@ export const addPost = (details, imgFile) => async dispatch => {
   else {
     addPostwithImgURL(details, dispatch)
   }
+}
+
+export const deletePost = id => async dispatch => {
+  try {
+    const res = await axios.delete(`/api/posts/${id}`)
+
+    dispatch({ type: 'DELETE_POST', payload: res.data.id })
+  } catch (error) {}
 }

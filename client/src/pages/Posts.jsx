@@ -11,14 +11,22 @@ import PostItem from '../components/PostItem'
 import AddPostModal from '../components/AddPostModal/'
 import DeletePostDialog from '../components/DeletePostDialog'
 
-const Posts = ({ posts }) => {
+import { deletePost } from '../redux/posts/posts.actions'
+
+const Posts = ({ posts, deletePost }) => {
   const classes = usePostStyles()
 
   const [deleteDialogIsOpen, setDeleteDialogIsOpen] = useState(false)
+  const [deleteId, setDeleteId] = useState(null)
 
   const handleDelete = id => {
-    console.log(id)
+    setDeleteId(id)
     setDeleteDialogIsOpen(true)
+  }
+
+  const handleClose = () => {
+    setDeleteId(null)
+    setDeleteDialogIsOpen(false)
   }
 
   const [addModalIsOpen, setAddModalIsOpen] = useState(false)
@@ -28,18 +36,16 @@ const Posts = ({ posts }) => {
       <h2 className='posts--heading'>POSTS</h2>
       <ul>
         {posts.map(props => (
-          <PostItem
-            {...props}
-            key={props._id}
-            handleDelete={e => {
-              handleDelete(e)
-            }}
-          />
+          <PostItem {...props} key={props._id} handleDelete={handleDelete} />
         ))}
       </ul>
 
       <Tooltip title='Create post'>
-        <Fab color='secondary' onClick={() => setAddModalIsOpen(true)}>
+        <Fab
+          color='secondary'
+          onClick={() => setAddModalIsOpen(true)}
+          className={classes.fab}
+        >
           <AddIcon />
         </Fab>
       </Tooltip>
@@ -52,7 +58,8 @@ const Posts = ({ posts }) => {
 
       <DeletePostDialog
         isOpen={deleteDialogIsOpen}
-        handleClose={() => setDeleteDialogIsOpen(false)}
+        handleClose={handleClose}
+        confirmDelete={() => deletePost(deleteId)}
       />
     </div>
   )
@@ -62,4 +69,4 @@ const mapStateToProps = ({ posts }) => ({
   posts: posts.items
 })
 
-export default connect(mapStateToProps)(Posts)
+export default connect(mapStateToProps, { deletePost })(Posts)
