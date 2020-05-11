@@ -5,13 +5,10 @@ import EditIcon from '@material-ui/icons/Edit'
 import { Tooltip } from '@material-ui/core'
 import usePostItemStyle from '../styles/PostItem.style'
 
-const PostItem = ({ title, _id, handleDelete }) => {
+const PostItem = ({ title, _id, handleDelete, handleEdit }) => {
   const classes = usePostItemStyle()
 
-  const onEdit = () => {
-    console.log('EDIT', _id)
-  }
-
+  const onEdit = () => handleEdit(_id)
   const onDelete = () => handleDelete(_id)
 
   return (

@@ -1,10 +1,10 @@
 import React from 'react'
 import { Zoom, Backdrop, Modal } from '@material-ui/core/'
-import AddFormSection from './AddFormSection'
+import EditForm from './EditForm'
 
-import AddPostModalStyles from '../../styles/AddPostModal.styles'
+import AddPostModalStyles from '../styles/AddPostModal.styles'
 
-const AddPostModal = ({ isOpen, handleOpen, handleClose }) => {
+const EditPostModal = ({ isOpen, handleOpen, handleClose, editId }) => {
   const classes = AddPostModalStyles()
 
   return (
@@ -20,11 +20,11 @@ const AddPostModal = ({ isOpen, handleOpen, handleClose }) => {
     >
       <Zoom in={isOpen}>
         <div className={classes.paper}>
-          <AddFormSection classes={classes} closeForm={handleClose} />
+          <EditForm classes={classes} closeForm={handleClose} editId={editId} />
         </div>
       </Zoom>
     </Modal>
   )
 }
 
-export default AddPostModal
+export default EditPostModal

@@ -12,19 +12,38 @@ import UploadIcon from '@material-ui/icons/Publish'
 import AddIcon from '@material-ui/icons/Add'
 import CancelIcon from '@material-ui/icons/Cancel'
 import LinkIcon from '@material-ui/icons/Link'
-import StyledIconButton from '../../styles/styledComponents/StyledIconButton'
+import StyledIconButton from '../styles/styledComponents/StyledIconButton'
 import { DropzoneDialog } from 'material-ui-dropzone'
-import useOnKeyDownEnter from '../../hooks/useOnKeyDownEnter'
+import useOnKeyDownEnter from '../hooks/useOnKeyDownEnter'
 
 import { connect } from 'react-redux'
-import { addPost } from '../../redux/posts/posts.actions'
+import { updatePost } from '../redux/posts/posts.actions'
 
-import { getPostDetailsJSON, isValidURL } from '../../utils/'
+import { isValidURL } from '../utils'
 
-const AddFormSection = props => {
-  const { classes, addPost, existingPosts, closeForm } = props
+const EditForm = props => {
+  const { classes, updatePost, existingPosts, closeForm, editId, posts } = props
+
+  useEffect(() => {
+    const post = posts.filter(post => post._id === editId)[0]
+    if (post.imgURL) setIsLink(true)
+
+    setFormData({
+      ...formData,
+      title: post.title && post.title,
+      hashtags: post.hashtags && post.hashtags,
+      imgURL:
+        post.imgFile === undefined &&
+        !post.imgFile &&
+        post.imgURL &&
+        post.imgURL,
+      imgFile: !post.imgURL && post.imgFile && post.imgFile,
+      body: post.body && post.body
+    })
+  }, [])
 
   const [imgIsLink, setIsLink] = useState(false)
+
   const [formData, setFormData] = useState({
     title: '',
     pushtoHashtags: '',
@@ -108,7 +127,7 @@ const AddFormSection = props => {
     if (imgFile) setFormData({ ...formData, imgFile: {} })
   }
 
-  const handleAddPost = async () => {
+  const handleUpdatePost = async () => {
     setError({
       ...error,
       title: existingPosts.includes(formData.title)
@@ -124,7 +143,7 @@ const AddFormSection = props => {
       return console.log('ERRROR!!')
     } else {
       // const details = getPostDetailsJSON(formData)
-      addPost(formData, imgFile)
+      updatePost(formData, imgFile)
       closeForm()
       clearForm()
     }
@@ -141,7 +160,7 @@ const AddFormSection = props => {
 
   return (
     <>
-      <h2 className={classes.heading}>New Post</h2>
+      <h2 className={classes.heading}>Edit Post</h2>
       <form className={classes.form}>
         <TextField
           label='Title'
@@ -238,7 +257,6 @@ const AddFormSection = props => {
             label='Url'
             name='imgURL'
             value={imgURL}
-            autoFocus={true}
             onChange={onChange}
             className={classes.imgURLTextfield}
             error={hasError('imgURL')}
@@ -261,7 +279,7 @@ const AddFormSection = props => {
           aria-label='body textarea'
           placeholder='Body'
           name='body'
-          vallue={body}
+          value={body}
           // error={hasError('body')}
         />
 
@@ -270,9 +288,9 @@ const AddFormSection = props => {
           color='primary'
           className={classes.submitBtn}
           endIcon={<AddIcon />}
-          onClick={handleAddPost}
+          onClick={handleUpdatePost}
         >
-          Add post
+          Update
         </Button>
       </form>
     </>
@@ -280,7 +298,8 @@ const AddFormSection = props => {
 }
 
 const mapStateToProps = ({ posts }) => ({
-  existingPosts: posts.items.map(({ title }) => title)
+  existingPosts: posts.items.map(({ title }) => title),
+  posts: posts.items
 })
 
-export default connect(mapStateToProps, { addPost })(AddFormSection)
+export default connect(mapStateToProps, { updatePost })(EditForm)

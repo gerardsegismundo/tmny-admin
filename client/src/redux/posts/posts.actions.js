@@ -58,6 +58,13 @@ export const addPost = (details, imgFile) => async dispatch => {
   }
 }
 
+export const updatePost = (post, id) => async dispatch => {
+  try {
+    const res = await axios.put(`/api/posts/${id}`, post)
+    console.log(res)
+  } catch (error) {}
+}
+
 export const deletePost = id => async dispatch => {
   try {
     const res = await axios.delete(`/api/posts/${id}`)
