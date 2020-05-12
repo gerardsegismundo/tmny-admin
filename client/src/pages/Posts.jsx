@@ -42,14 +42,15 @@ const Posts = ({ posts, deletePost }) => {
     <div className='posts'>
       <h2 className='posts--heading'>POSTS</h2>
       <ul>
-        {posts.map(props => (
-          <PostItem
-            {...props}
-            key={props._id}
-            handleDelete={handleDelete}
-            handleEdit={handleEdit}
-          />
-        ))}
+        {posts &&
+          posts.map(props => (
+            <PostItem
+              {...props}
+              key={props._id}
+              handleDelete={handleDelete}
+              handleEdit={handleEdit}
+            />
+          ))}
       </ul>
 
       <Tooltip title='Create post'>

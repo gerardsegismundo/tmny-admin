@@ -16,6 +16,15 @@ const postsReducer = (state = initialState, { type, payload }) => {
         items: [...state.items, payload]
       }
 
+    case 'UPDATE_POST':
+      console.log('REDUCER: ', payload.title)
+      return {
+        ...state,
+        items: state.items.map(item =>
+          item._id === payload._id ? payload : item
+        )
+      }
+
     case 'DELETE_POST':
       return {
         ...state,

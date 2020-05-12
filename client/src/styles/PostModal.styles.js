@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles'
 
-const AddPostModalStyles = makeStyles(theme => ({
+const PostModalStyles = makeStyles(theme => ({
   modal: {
     display: 'flex',
     alignItems: 'center',
@@ -95,4 +95,4 @@ const AddPostModalStyles = makeStyles(theme => ({
   }
 }))
 
-export default AddPostModalStyles
+export default PostModalStyles

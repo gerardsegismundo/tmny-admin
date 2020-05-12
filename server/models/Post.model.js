@@ -39,11 +39,15 @@ const PostSchema = new Schema(
           default: Date.now
         }
       }
-    ]
-  },
-  {
-    timestamps: true
+    ],
+    date: {
+      type: Date,
+      default: Date.now
+    }
   }
+  // {
+  //   timestamps: true
+  // }
 )
 
 const validatePost = post => {

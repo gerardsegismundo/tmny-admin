@@ -48,20 +48,28 @@ const addPostwithImgURL = async (details, dispatch) => {
 }
 
 export const addPost = (details, imgFile) => async dispatch => {
-  // with IMAGE FILE
+  // with image file
   if (!_.isEmpty(imgFile)) {
     addPostWithImgFile(details, imgFile)
   }
-  // WITH LINK
+  // with image url
   else {
     addPostwithImgURL(details, dispatch)
   }
 }
 
-export const updatePost = (post, id) => async dispatch => {
+export const updatePost = (formData, id, imgFile) => async dispatch => {
+  // With image url
+  delete formData.pushtoHashtags
+
+  console.log('ACTION: ', formData.title)
   try {
-    const res = await axios.put(`/api/posts/${id}`, post)
-    console.log(res)
+    const res = await axios.put(`/api/posts/${id}`, formData)
+
+    dispatch({
+      type: 'UPDATE_POST',
+      payload: res.data
+    })
   } catch (error) {}
 }
 

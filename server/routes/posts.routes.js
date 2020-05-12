@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const _ = require('lodash')
 
 // Middleware && helpers
 const { uploadImage, auth } = require('../middleware')
@@ -43,6 +44,31 @@ router.post('/', auth, uploadImage, async (req, res) => {
   res.send(newPost)
 })
 
+// Update Post
+router.put('/:id', auth, async (req, res) => {
+  const { title, hashtags, body, imgURL, imgFile } = req.body
+
+  const post = await Post.findByIdAndUpdate(
+    req.params.id,
+    {
+      title,
+      hashtags,
+      body,
+      imgURL,
+      imgFile,
+      imgURL
+    },
+    { new: true }
+  )
+
+  if (!post) {
+    return res.status(404).send('The post with the given ID was not found.')
+  }
+
+  res.send(post)
+})
+
+// Delete Post
 router.delete('/:id', auth, async (req, res) => {
   const { id } = req.params
 

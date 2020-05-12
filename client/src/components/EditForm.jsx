@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core/'
 import UploadIcon from '@material-ui/icons/Publish'
 import AddIcon from '@material-ui/icons/Add'
+import DoneIcon from '@material-ui/icons/Done'
 import CancelIcon from '@material-ui/icons/Cancel'
 import LinkIcon from '@material-ui/icons/Link'
 import StyledIconButton from '../styles/styledComponents/StyledIconButton'
@@ -40,6 +41,7 @@ const EditForm = props => {
       imgFile: !post.imgURL && post.imgFile && post.imgFile,
       body: post.body && post.body
     })
+    // eslint-disable-next-line
   }, [])
 
   const [imgIsLink, setIsLink] = useState(false)
@@ -143,7 +145,9 @@ const EditForm = props => {
       return console.log('ERRROR!!')
     } else {
       // const details = getPostDetailsJSON(formData)
-      updatePost(formData, imgFile)
+
+      console.log('FORM: ', formData.title)
+      updatePost(formData, editId, imgFile)
       closeForm()
       clearForm()
     }
@@ -279,6 +283,7 @@ const EditForm = props => {
           aria-label='body textarea'
           placeholder='Body'
           name='body'
+          onChange={onChange}
           value={body}
           // error={hasError('body')}
         />
@@ -287,7 +292,7 @@ const EditForm = props => {
           variant='contained'
           color='primary'
           className={classes.submitBtn}
-          endIcon={<AddIcon />}
+          endIcon={<DoneIcon />}
           onClick={handleUpdatePost}
         >
           Update

@@ -2,10 +2,10 @@ import React from 'react'
 import { Zoom, Backdrop, Modal } from '@material-ui/core/'
 import EditForm from './EditForm'
 
-import AddPostModalStyles from '../styles/AddPostModal.styles'
+import PostModalStyles from '../styles/PostModal.styles'
 
 const EditPostModal = ({ isOpen, handleOpen, handleClose, editId }) => {
-  const classes = AddPostModalStyles()
+  const classes = PostModalStyles()
 
   return (
     <Modal
