@@ -1,0 +1,46 @@
+.post-container {
+  @include bootstrapContainer;
+
+  &--date {
+    color: rgba(46, 46, 46, 0.4);
+    text-align: center;
+    margin: 5rem 0 2rem;
+    font-weight: 600;
+  }
+
+  &--title {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  &--hashtags {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 4rem;
+    color: rgba(46, 46, 46, 0.4);
+    font-weight: 600;
+
+    span {
+      margin: 1rem 2vw;
+    }
+  }
+
+  &--img {
+    display: flex;
+    margin: auto;
+    width: 100%;
+
+    @media (min-width: 768px) {
+      max-width: 60vw;
+    }
+  }
+
+  &--body {
+    text-align: left;
+    margin: 5rem 3vw;
+    max-width: 80rem;
+    line-height: 4rem;
+    color: rgba(46, 46, 46, 0.8);
+    font-weight: 600;
+  }
+}

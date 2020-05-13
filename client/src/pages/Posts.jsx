@@ -11,31 +11,33 @@ import PostItem from '../components/PostItem'
 import AddPostModal from '../components/AddPostModal'
 import EditPostModal from '../components/EditModal'
 import DeletePostDialog from '../components/DeletePostDialog'
+import ViewPostDialog from '../components/ViewPostDialog'
 
 import { deletePost } from '../redux/posts/posts.actions'
 
 const Posts = ({ posts, deletePost }) => {
   const classes = usePostStyles()
 
+  const [currentId, setCurrentId] = useState(null)
+
+  const [viewDialogIsOpen, setViewDialogIsOpen] = useState(false)
   const [addModalIsOpen, setAddModalIsOpen] = useState(false)
   const [editModalIsOpen, setEditModalIsOpen] = useState(false)
   const [deleteDialogIsOpen, setDeleteDialogIsOpen] = useState(false)
-  const [deleteId, setDeleteId] = useState(null)
-  const [editId, setEditId] = useState(null)
+
+  const handleView = id => {
+    setCurrentId(id)
+    setViewDialogIsOpen(true)
+  }
 
   const handleDelete = id => {
-    setDeleteId(id)
+    setCurrentId(id)
     setDeleteDialogIsOpen(true)
   }
 
   const handleEdit = id => {
-    setEditId(id)
+    setCurrentId(id)
     setEditModalIsOpen(true)
-  }
-
-  const handleClose = () => {
-    setDeleteId(null)
-    setDeleteDialogIsOpen(false)
   }
 
   return (
@@ -49,6 +51,7 @@ const Posts = ({ posts, deletePost }) => {
               key={props._id}
               handleDelete={handleDelete}
               handleEdit={handleEdit}
+              handleView={handleView}
             />
           ))}
       </ul>
@@ -73,14 +76,20 @@ const Posts = ({ posts, deletePost }) => {
         isOpen={editModalIsOpen}
         handleOpen={() => setEditModalIsOpen(true)}
         handleClose={() => setEditModalIsOpen(false)}
-        editId={editId}
+        editId={/* editId */ currentId}
       ></EditPostModal>
 
       <DeletePostDialog
         isOpen={deleteDialogIsOpen}
-        handleClose={handleClose}
-        confirmDelete={() => deletePost(deleteId)}
+        handleClose={() => setDeleteDialogIsOpen(false)}
+        confirmDelete={() => deletePost(/* deleteId */ currentId)}
       />
+
+      <ViewPostDialog
+        {...posts.filter(post => post._id === currentId)[0]}
+        isOpen={viewDialogIsOpen}
+        handleClose={() => setViewDialogIsOpen(false)}
+      ></ViewPostDialog>
     </div>
   )
 }
