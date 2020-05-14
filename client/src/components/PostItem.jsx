@@ -32,13 +32,13 @@ const PostItem = ({ title, _id, handleDelete, handleEdit, handleView }) => {
           className={classes.editIcon}
           aria-label='edit'
         >
-          <EditIcon fontSize='small' />
+          <EditIcon />
         </IconButton>
       </Tooltip>
 
       <Tooltip title='Delete'>
         <IconButton className={classes.deleteIcon} onClick={onDelete}>
-          <DeleteIcon fontSize='small' />
+          <DeleteIcon />
         </IconButton>
       </Tooltip>
     </div>

@@ -3,12 +3,15 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Button, Dialog, AppBar, Toolbar, IconButton } from '@material-ui/core/'
 import { Typography, Slide } from '@material-ui/core/'
 import CloseIcon from '@material-ui/icons/Close'
+import LikeIcon from '@material-ui/icons/Favorite'
 
 import formatDate from '../utils/formatDate'
 
 const useStyles = makeStyles(theme => ({
   appBar: {
-    position: 'relative'
+    position: 'relative',
+    backgroundImage:
+      'linear-gradient( 45deg, rgba(2, 0, 36, 1) 0%, rgba(9, 83, 121, 1) 35%, rgb(0, 143, 255) 100% )'
   },
   title: {
     marginLeft: theme.spacing(2),
@@ -25,8 +28,6 @@ const ViewPostDialog = props => {
   const { title, hashtags, body, imgURL, imgFile, comments, likes } = props
 
   const classes = useStyles()
-
-  console.log(props)
 
   return (
     <Dialog
@@ -48,9 +49,6 @@ const ViewPostDialog = props => {
           <Typography variant='h6' className={classes.title}>
             Post view
           </Typography>
-          <Button autoFocus color='inherit' onClick={handleClose}>
-            save
-          </Button>
         </Toolbar>
       </AppBar>
 
@@ -64,21 +62,35 @@ const ViewPostDialog = props => {
             ))}
           </p>
           <img className='post-container--img' src={imgURL}></img>
-          <center>
-            <p className='post-container--body'>{body}</p>
-          </center>
-          <p>{likes.length}likes</p>
-          <hr></hr>
-          <h2>{comments.length}Comments</h2>
-          {comments &&
-            comments.map(({ avatar, date, name, text, _id }) => (
-              <li key={_id}>
-                <h3>{name}</h3>
-                <img src={avatar}></img>
-                <p>{text}</p>
-              </li>
-            ))}
-          {/* {comments && comments.map(comment => <li>{comment}</li>)} */}
+
+          <p className='post-container--body'>{body}</p>
+
+          <span className='post-container--likes'>
+            <LikeIcon fontSize='large' />
+            {likes.length} likes
+          </span>
+
+          <div className='comments'>
+            <p className='comments--heading'>
+              <span>Comments</span>
+              <span>
+                {comments.length} comment{comments.length > 1 ? 's' : null}
+              </span>
+            </p>
+            {comments &&
+              comments.map(({ avatar, date, name, text, _id }) => (
+                <li className='comments__items' key={_id}>
+                  <img src={avatar}></img>
+                  <div>
+                    <p className='comments__items--label'>
+                      {name} | {formatDate(date)}
+                    </p>
+                    <p className='comments__items--body'>{text}</p>
+                  </div>
+                </li>
+              ))}
+            {/* {comments && comments.map(comment => <li>{comment}</li>)} */}
+          </div>
         </div>
       )}
     </Dialog>
