@@ -10,8 +10,6 @@ export const getMessages = () => async dispatch => {
       payload: res.data
     })
   } catch (err) {
-    const { error } = err.response.data
-
-    console.log(error)
+    console.log(err)
   }
 }

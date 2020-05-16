@@ -1,21 +1,13 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import MessagesTable from '../components/MessagesTable'
 
-const Messages = ({ messages }) => {
+const Messages = () => {
   return (
     <div className='messages'>
       <h2>Messages</h2>
-      <ul>
-        {messages.map(m => (
-          <li>{m.body}</li>
-        ))}
-      </ul>
+      <MessagesTable />
     </div>
   )
 }
 
-const mapStateToProps = ({ messages }) => ({
-  messages: messages.items
-})
-
-export default connect(mapStateToProps)(Messages)
+export default Messages

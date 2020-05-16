@@ -12,7 +12,7 @@ const Dashboard = ({ currentUser }) => {
     currentUser && (
       <div className='dashboard'>
         <Navbar />
-        <Redirect push to='/dashboard/posts' /> }
+        <Redirect push to='/dashboard/messages' /> }
         <Container className='dashboard__container'>
           <Switch>
             <Route

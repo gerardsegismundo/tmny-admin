@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { Button, Dialog, AppBar, Toolbar, IconButton } from '@material-ui/core/'
+import { Dialog, AppBar, Toolbar, IconButton } from '@material-ui/core/'
 import { Typography, Slide } from '@material-ui/core/'
 import CloseIcon from '@material-ui/icons/Close'
 import LikeIcon from '@material-ui/icons/Favorite'
@@ -25,6 +25,7 @@ const Transition = React.forwardRef((props, ref) => (
 
 const ViewPostDialog = props => {
   const { isOpen, handleClose, date } = props
+  // eslint-disable-next-line
   const { title, hashtags, body, imgURL, imgFile, comments, likes } = props
 
   const classes = useStyles()
@@ -61,7 +62,7 @@ const ViewPostDialog = props => {
               <span>#{h}</span>
             ))}
           </p>
-          <img className='post-container--img' src={imgURL}></img>
+          <img className='post-container--img' alt='post' src={imgURL}></img>
 
           <p className='post-container--body'>{body}</p>
 
@@ -80,7 +81,7 @@ const ViewPostDialog = props => {
             {comments &&
               comments.map(({ avatar, date, name, text, _id }) => (
                 <li className='comments__items' key={_id}>
-                  <img src={avatar}></img>
+                  <img src={avatar} alt='avatar'></img>
                   <div>
                     <p className='comments__items--label'>
                       {name} | {formatDate(date)}
