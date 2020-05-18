@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { useTheme } from '@material-ui/core/styles'
 import { Table, TableBody, TableCell, TableContainer } from '@material-ui/core/'
 import { TablePagination, TableFooter, Paper } from '@material-ui/core/'
 import { TableRow } from '@material-ui/core/'
@@ -12,29 +12,18 @@ import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons/'
 import { connect } from 'react-redux'
 import { sliceMessage, formatDate } from '../utils/'
 
-const useStyles1 = makeStyles(theme => ({
-  root: {
-    flexShrink: 0,
-    marginLeft: theme.spacing(2.5)
-  }
-}))
-
 const TablePaginationActions = props => {
-  const classes = useStyles1()
   const theme = useTheme()
   const { count, page, rowsPerPage, onChangePage } = props
 
   const handleFirstPageButtonClick = e => onChangePage(e, 0)
-
   const handleBackButtonClick = e => onChangePage(e, page - 1)
-
   const handleNextButtonClick = e => onChangePage(e, page + 1)
-
   const handleLastPageButtonClick = e =>
     onChangePage(e, Math.max(0, Math.ceil(count / rowsPerPage) - 1))
 
   return (
-    <div className={classes.root}>
+    <div>
       <IconButton
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
@@ -73,21 +62,14 @@ const TablePaginationActions = props => {
   )
 }
 
-const useStyles2 = makeStyles({
-  table: {
-    minWidth: 500
-  }
-})
-
 const MessagesTable = ({ messages }) => {
   console.log(messages)
 
-  const classes = useStyles2()
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
-  // const emptyRows =
-  //   rowsPerPage - Math.min(rowsPerPage, messages.length - page * rowsPerPage)
+  const emptyRows =
+    rowsPerPage - Math.min(rowsPerPage, messages.length - page * rowsPerPage)
 
   const handleChangePage = (e, newPage) => setPage(newPage)
 
@@ -98,7 +80,7 @@ const MessagesTable = ({ messages }) => {
 
   return messages ? (
     <TableContainer component={Paper}>
-      <Table className={classes.table}>
+      <Table style={{ minWidth: 500 }}>
         <TableBody>
           {(rowsPerPage > 0
             ? messages.slice(
@@ -120,11 +102,11 @@ const MessagesTable = ({ messages }) => {
             </TableRow>
           ))}
 
-          {/*       {emptyRows > 0 && (
+          {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>
               <TableCell colSpan={6} />
             </TableRow>
-          )} */}
+          )}
         </TableBody>
         <TableFooter>
           <TableRow>

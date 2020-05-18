@@ -3,7 +3,7 @@ const router = express.Router()
 const _ = require('lodash')
 
 // Middleware && helpers
-const { uploadImage, auth } = require('../middleware')
+const { /* uploadImage, */ auth } = require('../middleware')
 const { getGfs } = require('../helpers')
 
 // POST model
@@ -23,7 +23,7 @@ router.get('/', auth, async (req, res) => {
 })
 
 // Create Post
-router.post('/', auth, uploadImage, async (req, res) => {
+router.post('/', auth, async (req, res) => {
   // IMAGEURL INSTEAD OF FILE
   // if (!req.files) {
 
